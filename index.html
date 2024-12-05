@@ -98,7 +98,7 @@
 <body>
     <h1>Minh Họa Thuật Toán FIFO</h1>
     <label for="referenceString">Chuỗi Tham Chiếu:</label>
-    <input type="text" id="referenceString" placeholder="vd: 2,3,2,1,5,2,4,5,3,2,5,2">
+    <input type="text" id="referenceString" placeholder="VD: 2,3,2,1,5,2,4,5,3,2,5,2">
     <br>
     <label for="capacity">Khung Trang:</label>
     <input type="number" id="capacity" placeholder="vd: 3">
@@ -107,12 +107,26 @@
 
     <div id="output"></div>
 
-    <div class="footer">motdoiliemkhiet</div>
+    <div class="footer">mot doi liem khiet</div>
 
     <script>
         function simulateFIFO() {
-            const referenceString = document.getElementById('referenceString').value.split(',').map(Number);
-            const capacity = parseInt(document.getElementById('capacity').value);
+            const referenceStringInput = document.getElementById('referenceString').value.trim();
+            const capacityInput = document.getElementById('capacity').value;
+
+            // Kiểm tra input hợp lệ
+            if (!referenceStringInput) {
+                alert('Chuỗi tham chiếu không được để trống.');
+                return;
+            }
+
+            if (!capacityInput || parseInt(capacityInput) <= 0) {
+                alert('Dung lượng bộ nhớ phải là số nguyên dương.');
+                return;
+            }
+
+            const referenceString = referenceStringInput.split(',').map(Number);
+            const capacity = parseInt(capacityInput);
             const memory = Array(capacity).fill(-1); // Khởi tạo bộ nhớ với giá trị -1
             let pageFaults = 0;
             let nextToReplace = 0;
@@ -121,11 +135,21 @@
             outputDiv.innerHTML = ''; // Xóa kết quả trước đó
 
             referenceString.forEach((page, index) => {
+                if (!Number.isInteger(page)) {
+                    alert(`Giá trị tham chiếu tại vị trí ${index + 1} không phải số hợp lệ.`);
+                    return;
+                }
+
                 const isPageFault = !memory.includes(page); // Kiểm tra lỗi trang
                 if (isPageFault) {
-                    // Lỗi trang: Thay thế trang tại vị trí tiếp theo
-                    memory[nextToReplace] = page;
-                    nextToReplace = (nextToReplace + 1) % capacity; // Vòng lặp FIFO
+                    if (memory.includes(-1)) {
+                        // Thay thế trang trống nếu còn ô nhớ trống
+                        memory[memory.indexOf(-1)] = page;
+                    } else {
+                        // Thay thế trang theo thứ tự FIFO
+                        memory[nextToReplace] = page;
+                        nextToReplace = (nextToReplace + 1) % capacity;
+                    }
                     pageFaults++;
                 }
 
