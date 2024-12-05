@@ -3,43 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FIFO Page Replacement Algorithm Demonstration</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link to external CSS for styling -->
+    <title>Minh Họa Thuật Toán FIFO</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        #output { margin-top: 20px; }
+        .page { display: inline-block; width: 30px; height: 30px; text-align: center; line-height: 30px; border: 1px solid #000; margin: 2px; }
+        .reference { margin-bottom: 10px; font-weight: bold; }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>FIFO Page Replacement Algorithm Demonstration</h1>
-    </header>
-    
-    <main>
-        <section id="description">
-            <h2>About FIFO Algorithm</h2>
-            <p>The FIFO (First-In-First-Out) page replacement algorithm is the simplest page replacement algorithm. It maintains a queue of pages in memory, and when a page needs to be replaced, the oldest page (the one that has been in memory the longest) is removed.</p>
-        </section>
+    <h1>Minh Họa Thuật Toán FIFO</h1>
+    <label for="referenceString">Chuỗi Tham Chiếu (cách nhau bằng dấu phẩy):</label>
+    <input type="text" id="referenceString" placeholder="vd: 2,3,2,1,5,2,4,5,3,2,5,2">
+    <br>
+    <label for="capacity">Dung Lượng Bộ Nhớ:</label>
+    <input type="number" id="capacity" placeholder="vd: 3">
+    <br><br>
+    <button onclick="simulateFIFO()">Mô Phỏng FIFO</button>
 
-        <section id="input-section">
-            <h2>Input Parameters</h2>
-            <form id="fifo-form">
-                <label for="reference-string">Reference String (comma-separated):</label>
-                <input type="text" id="reference-string" placeholder="e.g., 0,2,1,6,4,0,1,0,3,1,2,1" required>
-                
-                <label for="memory-capacity">Memory Capacity (number of pages):</label>
-                <input type="number" id="memory-capacity" min="1" required>
-                
-                <button type="submit">Simulate FIFO</button>
-            </form>
-        </section>
+    <div id="output"></div>
 
-        <section id="results">
-            <h2>Results</h2>
-            <p id="output"></p>
-        </section>
-    </main>
+    <script>
+        function simulateFIFO() {
+            const referenceString = document.getElementById('referenceString').value.split(',').map(Number);
+            const capacity = parseInt(document.getElementById('capacity').value);
+            const memory = Array(capacity).fill(-1); // Khởi tạo bộ nhớ với giá trị -1
+            let pageFaults = 0;
+            let nextToReplace = 0;
 
-    <footer>
-        <p>&copy; 2024 FIFO Page Replacement Algorithm Simulator</p>
-    </footer>
+            const outputDiv = document.getElementById('output');
+            outputDiv.innerHTML = ''; // Xóa kết quả trước đó
 
-    <script src="script.js"></script> <!-- Link to external JavaScript for functionality -->
+            referenceString.forEach((page, index) => {
+                const isPageFault = !memory.includes(page); // Kiểm tra lỗi trang
+                if (isPageFault) {
+                    // Lỗi trang: Thay thế trang tại vị trí tiếp theo
+                    memory[nextToReplace] = page;
+                    nextToReplace = (nextToReplace + 1) % capacity; // Vòng lặp FIFO
+                    pageFaults++;
+                }
+
+                // Hiển thị trạng thái bộ nhớ hiện tại
+                const memoryState = memory.map(p => `<span class="page">${p !== -1 ? p : '-'}</span>`).join('');
+                const faultMessage = isPageFault ? "Lỗi trang" : "Không lỗi";
+                outputDiv.innerHTML += `
+                    <div class="reference">Tham Chiếu: ${page}</div>
+                    <div>Trạng Thái Bộ Nhớ: [${memoryState}] - ${faultMessage}</div>
+                `;
+            });
+
+            outputDiv.innerHTML += `<h2>Tổng Số Lần Lỗi Trang: ${pageFaults}</h2>`;
+        }
+    </script>
 </body>
 </html>
