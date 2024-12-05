@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minh Họa Thuật Toán FIFO</title>
+    <style>
+        /* Tổng thể */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input, button {
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        input:focus, button:hover {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:active {
+            background-color: #45a049;
+        }
+
+        #output {
+            margin-top: 30px;
+            padding: 20px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .reference {
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #007BFF;
+        }
+
+        .memory-state {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .page {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+            margin: 5px;
+            border: 2px solid #007BFF;
+            border-radius: 4px;
+            font-weight: bold;
+            background: #e3f2fd;
+        }
+
+        .page.empty {
+            background: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <h1>Minh Họa Thuật Toán FIFO</h1>
+    <label for="referenceString">Chuỗi Tham Chiếu (cách nhau bằng dấu phẩy):</label>
+    <input type="text" id="referenceString" placeholder="vd: 2,3,2,1,5,2,4,5,3,2,5,2">
+    <br>
+    <label for="capacity">Dung Lượng Bộ Nhớ:</label>
+    <input type="number" id="capacity" placeholder="vd: 3">
+    <br><br>
+    <button onclick="simulateFIFO()">Mô Phỏng FIFO</button>
+
+    <div id="output"></div>
+
+    <div class="footer">FIFO Algorithm Simulation © 2024</div>
+
+    <script>
+        function simulateFIFO() {
+            const referenceString = document.getElementById('referenceString').value.split(',').map(Number);
+            const capacity = parseInt(document.getElementById('capacity').value);
+            const memory = Array(capacity).fill(-1); // Khởi tạo bộ nhớ với giá trị -1
+            let pageFaults = 0;
+            let nextToReplace = 0;
+
+            const outputDiv = document.getElementById('output');
+            outputDiv.innerHTML = ''; // Xóa kết quả trước đó
+
+            referenceString.forEach((page, index) => {
+                const isPageFault = !memory.includes(page); // Kiểm tra lỗi trang
+                if (isPageFault) {
+                    // Lỗi trang: Thay thế trang tại vị trí tiếp theo
+                    memory[nextToReplace] = page;
+                    nextToReplace = (nextToReplace + 1) % capacity; // Vòng lặp FIFO
+                    pageFaults++;
+                }
+
+                // Hiển thị trạng thái bộ nhớ hiện tại
+                const memoryState = memory
+                    .map(p => `<span class="page ${p === -1 ? 'empty' : ''}">${p !== -1 ? p : '-'}</span>`)
+                    .join('');
+                const faultMessage = isPageFault ? "Lỗi trang" : "Không lỗi";
+
+                outputDiv.innerHTML += `
+                    <div class="reference">Tham Chiếu: ${page}</div>
+                    <div class="memory-state">Trạng Thái Bộ Nhớ: ${memoryState} - <strong>${faultMessage}</strong></div>
+                `;
+            });
+
+            outputDiv.innerHTML += `<h2>Tổng Số Lần Lỗi Trang: ${pageFaults}</h2>`;
+        }
+    </script>
+</body>
+</html>
