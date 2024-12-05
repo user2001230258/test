@@ -12,73 +12,25 @@
     </header>
     <main>
         <section>
-            <h2>Giới thiệu</h2>
-            <p>FIFO (First In, First Out) là một thuật toán thay thế trang đơn giản nhất trong hệ điều hành. Khi một trang cần được thay thế, trang được đưa vào đầu tiên sẽ bị thay thế.</p>
+            <h2>Nhập dữ liệu</h2>
+            <form id="fifoForm">
+                <label for="pageRequests">Chuỗi yêu cầu trang (cách nhau bởi dấu phẩy):</label><br>
+                <input type="text" id="pageRequests" placeholder="Ví dụ: 7, 0, 1, 2, 0, 3, 0, 4" required><br><br>
+                <label for="numFrames">Số khung trang:</label><br>
+                <input type="number" id="numFrames" placeholder="Ví dụ: 3" min="1" required><br><br>
+                <button type="submit">Tính toán</button>
+            </form>
         </section>
         <section>
-            <h2>Cách hoạt động</h2>
-            <ol>
-                <li>Ban đầu, các khung trang đều rỗng.</li>
-                <li>Khi một trang mới được yêu cầu:
-                    <ul>
-                        <li>Nếu khung trang còn trống, trang sẽ được thêm vào khung trống đầu tiên.</li>
-                        <li>Nếu tất cả các khung đã đầy, trang lâu nhất (được đưa vào đầu tiên) sẽ bị thay thế.</li>
-                    </ul>
-                </li>
-            </ol>
-        </section>
-        <section>
-            <h2>Ví dụ</h2>
-            <p>Giả sử có 3 khung trang và dãy yêu cầu trang là: <strong>7, 0, 1, 2, 0, 3, 0, 4</strong>.</p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Yêu cầu trang</th>
-                        <th>Trạng thái khung</th>
-                        <th>Thay thế trang</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>7</td>
-                        <td>[7]</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td>0</td>
-                        <td>[7, 0]</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>[7, 0, 1]</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>[2, 0, 1]</td>
-                        <td>7</td>
-                    </tr>
-                    <!-- Tiếp tục thêm các dòng khác -->
-                </tbody>
-            </table>
-        </section>
-        <section>
-            <h2>Ưu và nhược điểm</h2>
-            <h3>Ưu điểm</h3>
-            <ul>
-                <li>Dễ cài đặt.</li>
-                <li>Hiệu quả với số lượng khung trang nhỏ.</li>
-            </ul>
-            <h3>Nhược điểm</h3>
-            <ul>
-                <li>Không tối ưu, dễ gây ra hiện tượng "Belady's Anomaly".</li>
-                <li>Không xét đến tần suất hoặc thời gian sử dụng trang.</li>
-            </ul>
+            <h2>Kết quả</h2>
+            <div id="result">
+                <p>Chưa có kết quả. Nhập dữ liệu để bắt đầu.</p>
+            </div>
         </section>
     </main>
     <footer>
-        <p>&copy; 2024 - Trang web mô tả thuật toán FIFO</p>
+        <p>&copy; 2024 - Thuật toán FIFO</p>
     </footer>
+    <script src="script.js"></script>
 </body>
 </html>
