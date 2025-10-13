@@ -1,0 +1,23 @@
+﻿@model _39_HoangVanHoan_Tuan08.Models.Theloaitin
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Theloaitin</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Tentheloai)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Tentheloai)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.IDLoai }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
