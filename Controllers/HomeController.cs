@@ -35,7 +35,6 @@ namespace _39_HoangVanHoan_Tuan08.Controllers
         // Edit     
         public ActionResult ChinhSua(int id)
         {
-            //Theloaitin t = data.Theloaitins.FirstOrDefault(item => item.IDLoai == id);
             var E_tin = data.Theloaitins.First(m => m.IDLoai == id);
             return View(E_tin); // Truyen model view
         }
@@ -56,5 +55,6 @@ namespace _39_HoangVanHoan_Tuan08.Controllers
 
     }
 }
+
 
 
