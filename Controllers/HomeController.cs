@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,7 +16,20 @@ namespace _39_HoangVanHoan_Tuan08.Controllers
         public ActionResult Index()
         {
             List<Theloaitin> ds = data.Theloaitins.ToList();
+            return View(ds);
+        }
+
+        public ActionResult ThemMoi()
+        {
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult Create(Theloaitin ltin)
+        {
+            data.Theloaitins.InsertAllOnSubmit(ltin);
+            data.SubmitChanges();
+            return RedirectToAction("Index");
         }
 
     }
