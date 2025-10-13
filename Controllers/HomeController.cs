@@ -19,13 +19,13 @@ namespace _39_HoangVanHoan_Tuan08.Controllers
             return View(ds);
         }
         // Create
-        public ActionResult ThemMoi()
+        public ActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult ThemMoi(Theloaitin ltin)
+        public ActionResult Create(Theloaitin ltin)
         {
             data.Theloaitins.InsertOnSubmit(ltin);
             data.SubmitChanges();
@@ -33,13 +33,13 @@ namespace _39_HoangVanHoan_Tuan08.Controllers
         }
 
         // Edit     
-        public ActionResult ChinhSua(int id)
+        public ActionResult Edit(int id)
         {
             var E_tin = data.Theloaitins.First(m => m.IDLoai == id);
             return View(E_tin); // Truyen model view
         }
         [HttpPost]
-        public ActionResult ChinhSua(int id, FormCollection collection)
+        public ActionResult Edit(int id, FormCollection collection)
         {
             // tao 1 bien Ltin gan voi doi tuong co id=id truyen vao
             var Ltin = data.Theloaitins.First(m => m.IDLoai == id);
@@ -55,6 +55,7 @@ namespace _39_HoangVanHoan_Tuan08.Controllers
 
     }
 }
+
 
 
 
