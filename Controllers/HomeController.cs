@@ -25,12 +25,13 @@ namespace _39_HoangVanHoan_Tuan08.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(Theloaitin ltin)
+        public ActionResult ThemMoi(Theloaitin ltin)
         {
-            data.Theloaitins.InsertAllOnSubmit(ltin);
+            data.Theloaitins.InsertOnSubmit(ltin);
             data.SubmitChanges();
             return RedirectToAction("Index");
         }
 
     }
 }
+
