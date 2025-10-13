@@ -53,8 +53,31 @@ namespace _39_HoangVanHoan_Tuan08.Controllers
             return RedirectToAction("Index");
         }
 
+        // Delete
+        public ActionResult Delete(int id)
+        {
+            var D_tin = data.Theloaitins.FirstOrDefault(m => m.IDLoai == id);
+            return View(D_tin);
+        }
+        [HttpPost]
+        public ActionResult Delete(int id, FormCollection collection)
+        {
+            var D_tin = data.Theloaitins.Where(m => m.IDLoai == id).First();
+            data.Theloaitins.DeleteOnSubmit(D_tin);
+            data.SubmitChanges();
+            return RedirectToAction("Index");
+        }
+
+        // Details
+        public ActionResult Details(int id)
+        {
+            var Details_tin = data.Theloaitins.Where(m => m.IDLoai == id).First();
+            return View(Details_tin);
+        }
+
     }
 }
+
 
 
 
