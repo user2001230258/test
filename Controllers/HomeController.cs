@@ -18,7 +18,7 @@ namespace _39_HoangVanHoan_Tuan08.Controllers
             List<Theloaitin> ds = data.Theloaitins.ToList();
             return View(ds);
         }
-
+        // Create
         public ActionResult ThemMoi()
         {
             return View();
@@ -32,6 +32,29 @@ namespace _39_HoangVanHoan_Tuan08.Controllers
             return RedirectToAction("Index");
         }
 
+        // Edit     
+        public ActionResult ChinhSua(int id)
+        {
+            //Theloaitin t = data.Theloaitins.FirstOrDefault(item => item.IDLoai == id);
+            var E_tin = data.Theloaitins.First(m => m.IDLoai == id);
+            return View(E_tin); // Truyen model view
+        }
+        [HttpPost]
+        public ActionResult ChinhSua(int id, FormCollection collection)
+        {
+            // tao 1 bien Ltin gan voi doi tuong co id=id truyen vao
+            var Ltin = data.Theloaitins.First(m => m.IDLoai == id);
+            var E_Loaitin = collection["Tentheloai"];
+
+            Ltin.IDLoai = id;
+            Ltin.Tentheloai = E_Loaitin;
+            // thuc hien update
+            UpdateModel(Ltin);
+            data.SubmitChanges();
+            return RedirectToAction("Index");
+        }
+
     }
 }
+
 
